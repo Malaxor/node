@@ -10,8 +10,21 @@ yargs.version('1.1.0');
 yargs.command({
   command: 'add',
   describe: 'Add a note',
-  handler() {
-    log('Adding a note.')
+  builder: {
+    title: {
+      descibe: 'Note title',
+      demandOption: true,
+      type: 'string'
+    },
+    body: {
+      descibe: 'Note body',
+      demandOption: true,
+      type: 'string'
+    }
+  },
+  handler(argv) {
+    log('Title: ', argv.title)
+    log('Body: ', argv.body)
   }
 });
 
@@ -42,5 +55,5 @@ yargs.command({
   }
 });
 
-// add, remove, read, list
-log(yargs.argv)
+// execute the parsing
+yargs.parse();
