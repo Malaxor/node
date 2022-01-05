@@ -24,14 +24,14 @@ const { log } = console;
 
 
 
-const personBuffer = fs.readFileSync('1-json.json');
-const person = JSON.parse(personBuffer);
+const person = JSON.parse(fs.readFileSync('1-json.json', 'utf-8'));
+log(person)
 
-person.name = 'Philip';
-person.age = 38;
+// person.name = 'Philip';
+// person.age = 38;
 
-const personJSON = JSON.stringify(person);
-fs.writeFileSync('1-json.json', personJSON);
+// const personJSON = JSON.stringify(person);
+// fs.writeFileSync('1-json.json', personJSON);
 
 
 
