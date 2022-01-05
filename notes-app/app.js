@@ -5,6 +5,7 @@ const { log } = console;
 
 // customize yargs version
 yargs.version('1.1.0');
+console.log(yargs.command)
 
 // create add command
 yargs.command({
