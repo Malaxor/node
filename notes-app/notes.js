@@ -16,9 +16,15 @@ const addNote = function(title, body) {
   }
 }
 
+const removeNote = function(title) {
+  const notes = loadNotes();
+  const notesToKeep = notes.filter(note => note.title !== title);
+  saveNotes(notesToKeep);
+}
+
 const loadNotes = function () {
   try {
-    return JSON.parse(fs.readFileSync('notes.json', 'utf8'));
+    return JSON.parse(fs.readFileSync('notes.json'));
   } catch (err) {
     return [];
   }
@@ -31,5 +37,6 @@ const saveNotes = function(notes) {
 
 module.exports = {
   getNotes,
-  addNote
+  addNote,
+  removeNote
 };
