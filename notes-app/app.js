@@ -1,5 +1,5 @@
 const yargs = require('yargs');
-const { addNote, getNotes, removeNote, listNotes } = require('./notes');
+const { addNote, readNote, removeNote, listNotes } = require('./notes');
 const { log } = console;
 
 // customize yargs version
@@ -46,8 +46,15 @@ yargs.command({
 yargs.command({
   command: 'read',
   describe: 'read a note',
-  handler() {
-    getNotes()
+  builder: {
+    title: {
+      description: 'Note title',
+      demandOption: true,
+      type: 'string'
+    }
+  },
+  handler(argv) {
+    readNote(argv.title)
   }
 });
 

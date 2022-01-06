@@ -2,9 +2,16 @@ const fs = require('fs');
 const chalk = require('chalk');
 const { log } = console;
 
-const getNotes = () => {
+const readNote = (title) => {
   const notes = loadNotes();
-  notes.forEach(note => log());
+  const note = notes.find(note => note.title === title);
+  
+  if (note) {
+    log(chalk.cyan(`${note.title}:`))
+    log(note.body);
+  } else {
+    log(chalk.black.bgRed("Note doesn't exist"));
+  }
 }
 
 const listNotes = () => {
@@ -52,7 +59,7 @@ const saveNotes = (notes) => {
 }
 
 module.exports = {
-  getNotes,
+  readNote,
   listNotes,
   addNote,
   removeNote
