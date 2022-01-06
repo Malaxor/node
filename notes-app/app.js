@@ -1,4 +1,3 @@
-const chalk = require('chalk');
 const yargs = require('yargs');
 const { addNote, getNotes, removeNote } = require('./notes');
 const { log } = console;

@@ -25,6 +25,7 @@ const { log } = console;
 
 
 const person = JSON.parse(fs.readFileSync('1-json.json'));
+log(person);
 
 // person.name = 'Philip';
 // person.age = 38;
