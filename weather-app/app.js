@@ -1,4 +1,5 @@
 const request = require('request');
+const geocode = require('./utils/geocode');
 const { log } = console;
 
 // weatherstack api 
@@ -18,19 +19,7 @@ const { log } = console;
 // });
 
 
-// mapbox api
-const accessToken = 'pk.eyJ1IjoibWFsYXhvciIsImEiOiJja3lhaXo5MDIwNjNyMndvbmowOXcxb3FjIn0.d-47hI6Dbi_3O32zmd0GBw';
-let searchText = 'Buftea';
-const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchText}.json?access_token=${accessToken}&limit=1`;
-
-request({ url, json: true }, (err, res) => {
-  if (err) {
-    log('Unable to connect to mapbox.');
-  } else if (!res.body.features.length) {
-    log('Unable to find location.');
-  } else {
-    const [ long, lat ] = res.body.features[0].center;
-    log(lat);
-    log(long)
-  }
-})
+geocode('Philadelphia', (err, data) => {
+  log(err)
+  log(data)
+});
