@@ -3,8 +3,8 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-app.use(express.static(path.join(__dirname, '../public'), { extensions: ['html']}));
-
+const publicDirectoryPath = path.join(__dirname, '../public');
+app.use(express.static(publicDirectoryPath, { extensions: ['html']}));
 
 app.get('/weather', (req, res) => {
   res.send({ forecast: 'cloudy', location: 'Detroit' });
