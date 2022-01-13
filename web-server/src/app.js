@@ -3,12 +3,16 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-app.set('views', path.join(__dirname, '../views'));
-app.set('view engine', 'hbs');
+// define paths for express configuration
+const viewsPath = path.join(__dirname, '../templates')
 const publicDirectoryPath = path.join(__dirname, '../public');
 // the about and help html pages are viewed at /about and /index by adding the extensions object
 // the index html is served without needing the extensions object
-app.use(express.static(publicDirectoryPath, { extensions: ['html'] }));
+app.use(express.static(publicDirectoryPath, { extensions: ['html'] })); // setup static directory
+
+// setup handlebars engine and views location
+app.set('view engine', 'hbs');
+app.set('views', viewsPath);
 
 app.get('/', (req, res) => {
   res.render('index', {
