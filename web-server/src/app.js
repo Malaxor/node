@@ -39,9 +39,24 @@ app.get('/help', (req, res) => {
   });
 });
 
-
 app.get('/weather', (req, res) => {
   res.send({ forecast: 'cloudy', location: 'Detroit' });
+});
+
+app.get('/help/*', (req, res) => {
+  res.render('404', {
+    title: '404',
+    name: 'Philip Costache',
+    errorMessage: 'Help article not found.'
+  })
+});
+
+app.get('*', (req, res) => {
+  res.render('404', {
+    title: '404',
+    name: 'Philip Costache',
+    errorMessage: 'Page not found.'
+  });
 });
 
 app.listen(port, () => console.log(`app listening on port ${port}`));
