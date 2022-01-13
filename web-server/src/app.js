@@ -1,11 +1,13 @@
 const path = require('path');
+const hbs = require('hbs');
 const express = require('express');
 const app = express();
 const port = 3000;
 
 // define paths for express configuration
-const viewsPath = path.join(__dirname, '../templates')
 const publicDirectoryPath = path.join(__dirname, '../public');
+const viewsPath = path.join(__dirname, '../templates/views')
+const partialsPath = path.join(__dirname, '../templates/partials');
 // the about and help html pages are viewed at /about and /index by adding the extensions object
 // the index html is served without needing the extensions object
 app.use(express.static(publicDirectoryPath, { extensions: ['html'] })); // setup static directory
@@ -13,6 +15,7 @@ app.use(express.static(publicDirectoryPath, { extensions: ['html'] })); // setup
 // setup handlebars engine and views location
 app.set('view engine', 'hbs');
 app.set('views', viewsPath);
+hbs.registerPartials(partialsPath);
 
 app.get('/', (req, res) => {
   res.render('index', {
@@ -30,7 +33,9 @@ app.get('/about', (req, res) => {
 
 app.get('/help', (req, res) => {
   res.render('help', {
-    message: 'this is an example message for the help page.'
+    message: 'this is an example message for the help page.',
+    title: 'Help',
+    name: 'Philip Costache'
   });
 });
 
