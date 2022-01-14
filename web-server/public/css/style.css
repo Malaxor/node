@@ -1,25 +1,40 @@
 body {
+  min-height: 100vh;
   color: #333;
   font-family: arial;
   max-width: 650px;
   margin: 0 auto;
   padding: 0 16px;
+  display: flex;
+  flex-direction: column;
 }
+
+/* Header */
 header {
   margin-top: 16px;
   margin-bottom: 48px;
 }
-
 a {
   color: #888;
   margin-right: 16px;
   text-decoration: none;
 }
-
 h1 {
   font-size: 64px;
   margin-bottom: 16px;
 }
+
+/* Index, About, 404, Help */
+.main {
+  flex: 1;
+}
+
+/* About */
+.portrait {
+  width: 250px;
+}
+
+/* Footer */
 footer {
   color: #888;
   border-top: 1px solid #666;

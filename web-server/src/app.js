@@ -8,8 +8,8 @@ const port = 3000;
 const publicDirectoryPath = path.join(__dirname, '../public');
 const viewsPath = path.join(__dirname, '../templates/views')
 const partialsPath = path.join(__dirname, '../templates/partials');
-// the about and help html pages are viewed at the routes /about and /index by adding the extensions object
-// the index html is served without needing the extensions object
+// any HTML page can be viewed by visiting the base URL plus the file's name (ex: localhost:3000, localhost:3000/about)
+// the index.html file is served without needing the extensions object, but other html pages require it
 app.use(express.static(publicDirectoryPath, { extensions: ['html'] })); // setup static directory
 
 // setup handlebars engine and views location
