@@ -1,16 +1,28 @@
-/* * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-} */
-/* html {
-  font-size: 62.5%;
-} */
-
-h1 {
-  color: grey;
+body {
+  color: #333;
+  font-family: arial;
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+header {
+  margin-top: 16px;
+  margin-bottom: 48px;
 }
 
-img {
-  width: 400px;
+a {
+  color: #888;
+  margin-right: 16px;
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+footer {
+  color: #888;
+  border-top: 1px solid #666;
+  margin-top: 16px;
+  padding: 16px 0;
 }

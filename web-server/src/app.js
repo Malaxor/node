@@ -8,7 +8,7 @@ const port = 3000;
 const publicDirectoryPath = path.join(__dirname, '../public');
 const viewsPath = path.join(__dirname, '../templates/views')
 const partialsPath = path.join(__dirname, '../templates/partials');
-// the about and help html pages are viewed at /about and /index by adding the extensions object
+// the about and help html pages are viewed at the routes /about and /index by adding the extensions object
 // the index html is served without needing the extensions object
 app.use(express.static(publicDirectoryPath, { extensions: ['html'] })); // setup static directory
 
@@ -48,7 +48,7 @@ app.get('/help/*', (req, res) => {
     title: '404',
     name: 'Philip Costache',
     errorMessage: 'Help article not found.'
-  })
+  });
 });
 
 app.get('*', (req, res) => {

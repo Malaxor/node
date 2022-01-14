@@ -7,12 +7,12 @@ if (address) {
     if (err) {
       return log(err);
     }
-    forecast(lat, long, (err, forecastData) => {
+    forecast(lat, long, (err, weatherMsg) => {
       if (err) {
         return log(err);
       }
       log(`${location}:`);
-      log(forecastData);
+      log(weatherMsg);
     });
   });
 } else {
