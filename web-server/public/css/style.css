@@ -29,6 +29,22 @@ h1 {
   flex: 1;
 }
 
+/* Index */
+input {
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+}
+input::placeholder {
+  color: #999;
+}
+button {
+  cursor: pointer;
+  padding: 6px 12px;
+  border: 1px solid #888;
+  background-color: #888;
+  color: white;
+}
+
 /* About */
 .portrait {
   width: 250px;
