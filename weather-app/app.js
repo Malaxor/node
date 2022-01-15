@@ -12,7 +12,7 @@ if (address) {
         return log(err);
       }
       log(`${location}:`);
-      log(weatherMsg);
+      log(currentWeather);
     });
   });
 } else {
