@@ -11,11 +11,29 @@ const User = new model('User', {
   }
 });
 
-const me = new User({
-  name: 'Philip Costache',
-  age: 'Mike'
+const Task = new model('Task', {
+  description: {
+    type: String
+  },
+  completed: {
+    type: Boolean
+  }
 });
 
-me.save()
+const task = new Task({
+  description: 'Daily walk',
+  completed: true
+});
+
+task.save()
+.then((walk) => console.log(walk))
+.catch((error) => console.error(error));
+
+const user = new User({
+  name: 'Philip Costache',
+  age: 38
+});
+
+user.save()
 .then(user => console.log(user))
 .catch(err => console.log(err));
