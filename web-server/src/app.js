@@ -55,8 +55,7 @@ app.get('/weather', (req, res) => {
       }
       res.send({
         location,
-        weatherMsg,
-        address
+        weatherMsg
       });
     });
   });
