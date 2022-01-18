@@ -11,9 +11,9 @@ const User = new model('User', {
   },
   email: {
     type: String,
+    required: true,
     trim: true,
     lowercase: true,
-    required: true,
     validate(value) {
       if (!validator.isEmail(value)) {
         throw new Error('Email is invalid');
@@ -28,32 +28,29 @@ const User = new model('User', {
         throw new Error('Age must be a positive number');
       }
     }
+  },
+  password: {
+    type: String,
+    required: true,
+    trim: true,
+    minLength: 7,
+    validate(value) {
+      if (value.toLowerCase().includes('password')) {
+        throw new Error('Password must not contain the word password');
+      }
+    }
+
   }
 });
 
 const Task = new model('Task', {
   description: {
-    type: String
+    type: String,
+    required: true,
+    trim: true
   },
   completed: {
-    type: Boolean
+    type: Boolean,
+    default: false
   }
 });
-
-// const task = new Task({
-//   description: 'Daily walk',
-//   completed: true
-// });
-
-// task.save()
-// .then((walk) => console.log(walk))
-// .catch((error) => console.error(error));
-
-const user = new User({
-  name: ' Philip ',
-  email: 'PHILIPCOSTACHE@YAHOO.COM    '
-});
-
-user.save()
-.then(user => console.log(user))
-.catch(err => console.log(err));
