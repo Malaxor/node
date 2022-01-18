@@ -39,7 +39,6 @@ const User = new model('User', {
         throw new Error('Password must not contain the word password');
       }
     }
-
   }
 });
 
