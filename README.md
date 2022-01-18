@@ -10,7 +10,7 @@
 * reading from and writing to JSON files with the fs module
 * parsing and stringifying JSON data
 
-## notes-app
+## weather-app
 
 * asynchronous JS (callbacks)
 * fetch
@@ -19,4 +19,4 @@
 * http requests with the [request](https://www.npmjs.com/package/request) module
 * building servers with [express](https://www.npmjs.com/package/express)
 * serving static files
-* dynamic templatating with [handlebars](https://www.npmjs.com/package/hbs)
+* dynamic templating with [handlebars](https://www.npmjs.com/package/hbs)
