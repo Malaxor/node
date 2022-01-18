@@ -6,6 +6,23 @@ const { user: User, task: Task } = require('./models');
 require('./db/mongoose');
 app.use(express.json());
 
+app.get('/users', (req, res) => {
+  User.find({})
+  .then(users => res.send(users))
+  .catch(err => res.status(500).send(err));
+});
+
+app.get('/users/:id', (req, res) => {
+  User.findById(req.params.id)
+  .then(user => { 
+    if (!user) {
+      return res.sendStatus(404);
+    }
+    res.send(user)
+  })
+  .catch(err => res.status(500).send(err));
+});
+
 app.post("/users", (req, res) => {
   const user = new User(req.body);
   user.save()
