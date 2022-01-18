@@ -1,13 +1,33 @@
 const { connect, model } = require('mongoose');
+const validator = require('validator');
 
 connect('mongodb://127.0.0.1:27017/task-manager');
 
 const User = new model('User', {
   name: {
-    type: String
+    type: String,
+    required: true,
+    trim: true
+  },
+  email: {
+    type: String,
+    trim: true,
+    lowercase: true,
+    required: true,
+    validate(value) {
+      if (!validator.isEmail(value)) {
+        throw new Error('Email is invalid');
+      }
+    }
   },
   age: {
-    type: Number
+    type: Number,
+    default: 0,
+    validate(value) {
+      if (value  < 0) {
+        throw new Error('Age must be a positive number');
+      }
+    }
   }
 });
 
@@ -20,18 +40,18 @@ const Task = new model('Task', {
   }
 });
 
-const task = new Task({
-  description: 'Daily walk',
-  completed: true
-});
+// const task = new Task({
+//   description: 'Daily walk',
+//   completed: true
+// });
 
-task.save()
-.then((walk) => console.log(walk))
-.catch((error) => console.error(error));
+// task.save()
+// .then((walk) => console.log(walk))
+// .catch((error) => console.error(error));
 
 const user = new User({
-  name: 'Philip Costache',
-  age: 38
+  name: ' Philip ',
+  email: 'PHILIPCOSTACHE@YAHOO.COM    '
 });
 
 user.save()
