@@ -6,52 +6,66 @@ const { user: User, task: Task } = require('./models');
 require('./db/mongoose');
 app.use(express.json());
 
-app.get('/users', (req, res) => {
-  User.find({})
-  .then(users => res.send(users))
-  .catch(err => res.status(500).send(err));
+app.get('/users', async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.send(users);
+  } catch (error) {
+    res.sendStatus(500);
+  }
 });
 
-app.get('/users/:id', (req, res) => {
-  User.findById(req.params.id)
-  .then(user => { 
+app.get('/users/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
     if (!user) {
       return res.sendStatus(404);
     }
     res.send(user);
-  })
-  .catch(err => res.status(500).send(err));
+  } catch (error) {
+    res.sendStatus(500);
+  }
 });
 
-app.post('/users', (req, res) => {
+app.post('/users', async (req, res) => {
   const user = new User(req.body);
-  user.save()
-  .then(user => res.status(201).send(user))
-  .catch(err => res.status(400).send(err));
+  try {
+    await user.save();
+    res.status(201).send(user);
+  } catch (error) {
+    res.status(400).send(error);
+  }
 });
 
-app.post('/tasks', (req, res) => {
+app.post('/tasks', async (req, res) => {
   const task = new Task(req.body);
-  task.save()
-  .then(task => res.status(201).send(task))
-  .catch(err => res.status(400).send(err));
+  try {
+    await task.save();
+    res.status(201).send(task);
+  } catch (error) {
+    res.sendStatus(400);
+  }
 });
 
-app.get('/tasks', (req, res) => {
-  Task.find({})
-  .then(tasks => res.send(tasks))
-  .catch(err => res.sendStatus(500));
+app.get('/tasks', async (req, res) => {
+  try {
+    const tasks = await Task.find({});
+    res.send(tasks);
+  } catch (error) {
+    res.sendStatus(500)
+  }
 });
 
-app.get('/tasks/:id', (req, res) => {
-  Task.findById(req.params.id)
-  .then(task => { 
+app.get('/tasks/:id', async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id);
     if (!task) {
       return res.sendStatus(404);
     }
     res.send(task);
-  })
-  .catch(err => res.status(500).send(err));
+  } catch (error) {
+    res.status(500).send(err)
+  }
 });
 
 app.listen(port, () => console.log('listening on port ' + port));
