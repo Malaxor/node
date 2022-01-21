@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { User } = require('../models');
 
+// get all users
 router.get('/users', async (req, res) => {
   try {
     const users = await User.find({});
@@ -10,6 +11,7 @@ router.get('/users', async (req, res) => {
   }
 });
 
+// get user by id
 router.get('/users/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -22,6 +24,7 @@ router.get('/users/:id', async (req, res) => {
   }
 });
 
+// create user
 router.post('/users', async (req, res) => {
   const user = new User(req.body);
   try {
@@ -32,6 +35,7 @@ router.post('/users', async (req, res) => {
   }
 });
 
+// update user
 router.patch('/users/:id', async (req, res) => {
   const allowedUpdates = ['name', 'age', 'password', 'age'];
   const updates = Object.keys(req.body);
@@ -41,11 +45,16 @@ router.patch('/users/:id', async (req, res) => {
     return res.status(400).send({ error: 'Invalid updates '});
   }
   try {
-    const user = await User.findByIdAndUpdate(
-      req.params.id, 
-      req.body, 
-      { new: true, runValidators: true }
-    );
+    // findByIdAndUpdate bypasses mongoose midlewear
+
+    // const user = await User.findByIdAndUpdate(
+    //   req.params.id, 
+    //   req.body, 
+    //   { new: true, runValidators: true }
+    // );
+    const user = await User.findById(req.params.id);
+    updates.forEach((update) => user[update] = req.body[update]);
+    await user.save();
     if (!user) {
       return res.sendStatus(404);
     }
@@ -55,6 +64,7 @@ router.patch('/users/:id', async (req, res) => {
   }
 });
 
+// delete user
 router.delete('/users/:id', async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
