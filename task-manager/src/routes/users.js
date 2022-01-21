@@ -1,6 +1,17 @@
 const router = require('express').Router();
 const { User } = require('../models');
 
+// login user
+router.post('/users/login', async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findByCredentials(User, email, password);
+    res.send(user);
+  } catch (e) {
+    res.send(e.message);
+  }
+});
+
 // get all users
 router.get('/users', async (req, res) => {
   try {
@@ -53,11 +64,11 @@ router.patch('/users/:id', async (req, res) => {
     //   { new: true, runValidators: true }
     // );
     const user = await User.findById(req.params.id);
-    updates.forEach((update) => user[update] = req.body[update]);
-    await user.save();
     if (!user) {
       return res.sendStatus(404);
     }
+    updates.forEach((update) => user[update] = req.body[update]);
+    await user.save();
     res.send(user);
   } catch (e) {
     res.status(400).send(e);

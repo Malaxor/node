@@ -12,6 +12,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
     trim: true,
+    unique: true,
     lowercase: true,
     validate(value) {
       if (!validator.isEmail(value)) {
@@ -41,6 +42,20 @@ const userSchema = new Schema({
   }
 });
 
+userSchema.statics.findByCredentials = async (email, password) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error('Unable to login');
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    throw new Error('Unable to login');
+  }
+  return user;
+}
+
+// hash password before saving
 userSchema.pre('save', async function (next) {
   // true when user is created and when the user changes his/her password
   if (this.isModified('password')) {
@@ -49,4 +64,5 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-module.exports = new model('users', userSchema);
+const User = model('users', userSchema);
+module.exports = User;
