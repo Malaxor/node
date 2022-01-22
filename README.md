@@ -1,4 +1,4 @@
-## notes-app: delving into the fundamentals of node.js
+## notes-app: use the command line (yargs package) to create, read and delete notes stored in a json file.
 
 * process and global
 * npm init
@@ -10,7 +10,7 @@
 * reading from and writing to JSON files with the fs module
 * parsing and stringifying JSON data
 
-## weather-app
+## weather-app: get the weather for anywhere in the world.
 
 * asynchronous JS (callbacks)
 * fetch

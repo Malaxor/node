@@ -1,18 +1,20 @@
 const router = require('express').Router();
 const { User } = require('../models');
 
-// login user
+// desc: login user
+// access: public
 router.post('/users/login', async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.findByCredentials(User, email, password);
+    const user = await User.findByCredentials(email, password);
     res.send(user);
   } catch (e) {
-    res.send(e.message);
+    res.send(e);
   }
 });
 
 // get all users
+// access: private
 router.get('/users', async (req, res) => {
   try {
     const users = await User.find({});
@@ -22,7 +24,8 @@ router.get('/users', async (req, res) => {
   }
 });
 
-// get user by id
+// desc: get user by id
+// access: private
 router.get('/users/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -35,7 +38,8 @@ router.get('/users/:id', async (req, res) => {
   }
 });
 
-// create user
+// desc: create user
+// access: public
 router.post('/users', async (req, res) => {
   const user = new User(req.body);
   try {
@@ -46,7 +50,8 @@ router.post('/users', async (req, res) => {
   }
 });
 
-// update user
+// desc: update user
+// access: private
 router.patch('/users/:id', async (req, res) => {
   const allowedUpdates = ['name', 'age', 'password', 'age'];
   const updates = Object.keys(req.body);
@@ -75,7 +80,8 @@ router.patch('/users/:id', async (req, res) => {
   }
 });
 
-// delete user
+// desc: delete user
+// access: private
 router.delete('/users/:id', async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
