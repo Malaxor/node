@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { User } = require('../models');
+const auth = require('../middleware/auth');
 
 // desc: sign up user
 // access: public
@@ -14,7 +15,6 @@ router.post('/users', async (req, res) => {
   }
 });
 
-
 // desc: login user
 // access: public
 router.post('/users/login', async (req, res) => {
@@ -28,15 +28,10 @@ router.post('/users/login', async (req, res) => {
   }
 });
 
-// get all users
+// desc: get authenticatd user's profile
 // access: private
-router.get('/users', async (req, res) => {
-  try {
-    const users = await User.find({});
-    res.send(users);
-  } catch (e) {
-    res.sendStatus(500);
-  }
+router.get('/users/me', auth, async (req, res) => {
+  res.send(req.user);
 });
 
 // desc: get user by id
@@ -52,7 +47,6 @@ router.get('/users/:id', async (req, res) => {
     res.sendStatus(500);
   }
 });
-
 
 // desc: update user
 // access: private
