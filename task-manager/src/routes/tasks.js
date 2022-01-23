@@ -20,7 +20,7 @@ router.get('/tasks/:id', async (req, res) => {
     }
     res.send(task);
   } catch (e) {
-    res.status(500).send(err);
+    res.status(500).send(e);
   }
 });
 
@@ -49,7 +49,7 @@ router.patch('/tasks/:id', async (req, res) => {
     if (!task) {
       return res.sendStatus(404);
     }
-    updates.forEach(update=> task[update] = req.body[update]);
+    updates.forEach(update => task[update] = req.body[update]);
     await task.save();
     res.send(task);
   } catch (e) {

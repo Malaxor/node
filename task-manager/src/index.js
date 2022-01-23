@@ -9,3 +9,11 @@ app.use(require('./routes/users'));
 app.use(require('./routes/tasks'));
 
 app.listen(port, () => console.log('listening on port ' + port));
+
+const jwt = require('jsonwebtoken');
+
+const myFunction = async () => {
+
+}
+
+myFunction()

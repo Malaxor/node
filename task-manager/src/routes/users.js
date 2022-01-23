@@ -1,13 +1,28 @@
 const router = require('express').Router();
 const { User } = require('../models');
 
+// desc: sign up user
+// access: public
+router.post('/users', async (req, res) => {
+  const user = new User(req.body);
+  try {
+    await user.save();
+    const token = await user.generateAuthToken()
+    res.status(201).send({ user, token });
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+
+
 // desc: login user
 // access: public
 router.post('/users/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findByCredentials(email, password);
-    res.send(user);
+    const token = await user.generateAuthToken();
+    res.send({ user, token });
   } catch (e) {
     res.send(e);
   }
@@ -38,17 +53,6 @@ router.get('/users/:id', async (req, res) => {
   }
 });
 
-// desc: create user
-// access: public
-router.post('/users', async (req, res) => {
-  const user = new User(req.body);
-  try {
-    await user.save();
-    res.status(201).send(user);
-  } catch (e) {
-    res.status(400).send(e);
-  }
-});
 
 // desc: update user
 // access: private
@@ -58,7 +62,7 @@ router.patch('/users/:id', async (req, res) => {
   const isValidOperation = updates.every(update => allowedUpdates.includes(update));
 
   if (!isValidOperation) {
-    return res.status(400).send({ error: 'Invalid updates '});
+    return res.status(400).send({ error: 'Invalid updates' });
   }
   try {
     // findByIdAndUpdate bypasses mongoose midlewear
