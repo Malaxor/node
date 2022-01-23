@@ -2,13 +2,12 @@ const router = require('express').Router();
 const { User } = require('../models');
 const auth = require('../middleware/auth');
 
-// desc: sign up user
+// desc: register user
 // access: public
 router.post('/users', async (req, res) => {
   const user = new User(req.body);
   try {
-    await user.save();
-    const token = await user.generateAuthToken()
+    const token = await user.generateAuthToken(); // generates auth token and saves user 
     res.status(201).send({ user, token });
   } catch (e) {
     res.status(400).send(e);
@@ -18,13 +17,36 @@ router.post('/users', async (req, res) => {
 // desc: login user
 // access: public
 router.post('/users/login', async (req, res) => {
-  const { email, password } = req.body;
   try {
-    const user = await User.findByCredentials(email, password);
+    const user = await User.findByCredentials(req.body.email, req.body.password);
     const token = await user.generateAuthToken();
     res.send({ user, token });
   } catch (e) {
     res.send(e);
+  }
+});
+
+// desc: logout user (from one session)
+// access: private
+router.post('/users/logout', auth, async (req, res) => {
+  try {
+    req.user.tokens = req.user.tokens.filter(token => token.token !== req.token);
+    await req.user.save();
+    res.send();
+  } catch (e) {
+    res.sendStatus(500);
+  }
+});
+
+// desc: logout user (from all sessions)
+// access: private
+router.post('/users/logoutAll', auth, async (req, res) => {
+  try {
+    req.user.tokens = [];
+    await req.user.save();
+    res.send();
+  } catch (e) {
+    res.sendStatus(500);
   }
 });
 
