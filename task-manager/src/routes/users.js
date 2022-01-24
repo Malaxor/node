@@ -17,8 +17,9 @@ router.post('/users', async (req, res) => {
 // desc: login user
 // access: public
 router.post('/users/login', async (req, res) => {
+  const { email, password } = req.body;
   try {
-    const user = await User.findByCredentials(req.body.email, req.body.password);
+    const user = await User.findByCredentials(email, password);
     const token = await user.generateAuthToken();
     res.send({ user, token });
   } catch (e) {
@@ -58,7 +59,7 @@ router.get('/users/me', auth, async (req, res) => {
 
 // desc: get user by id
 // access: private
-router.get('/users/:id', async (req, res) => {
+router.get('/users/:id', auth, async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) {
@@ -72,7 +73,7 @@ router.get('/users/:id', async (req, res) => {
 
 // desc: update user
 // access: private
-router.patch('/users/:id', async (req, res) => {
+router.patch('/users/:id', auth, async (req, res) => {
   const allowedUpdates = ['name', 'age', 'password', 'age'];
   const updates = Object.keys(req.body);
   const isValidOperation = updates.every(update => allowedUpdates.includes(update));
@@ -102,7 +103,7 @@ router.patch('/users/:id', async (req, res) => {
 
 // desc: delete user
 // access: private
-router.delete('/users/:id', async (req, res) => {
+router.delete('/users/:id', auth, async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
     if (!user) {

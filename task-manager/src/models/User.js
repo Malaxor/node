@@ -49,6 +49,16 @@ const userSchema = new Schema({
   }]
 });
 
+// returns only the fields that you want the public to see
+userSchema.methods.toJSON = function () {
+  const userObject = this.toObject();
+  
+  delete userObject.password;
+  delete userObject.tokens;
+  
+  return userObject;
+}
+
 userSchema.methods.generateAuthToken = async function () {
   const token = jwt.sign({ id: this.id.toString() }, 'jwtsecret');
   this.tokens = [...this.tokens, { token }];
