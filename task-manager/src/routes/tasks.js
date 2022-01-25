@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const auth = require('../middleware/auth');
-const { Task } = require('../models');
+const Task = require('../models/task');
 
 // desc: create task
 // access: private

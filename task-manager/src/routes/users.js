@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../models');
+const User = require('../models/user');
 const auth = require('../middleware/auth');
 
 // desc: register user
@@ -87,4 +87,5 @@ router.delete('/users/me', auth, async (req, res) => {
     res.sendStatus(500);
   }
 });
+
 module.exports = router;

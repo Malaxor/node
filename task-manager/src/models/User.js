@@ -2,6 +2,7 @@ const { model, Schema } = require('mongoose');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
+const Task  = require('./task')
 
 const userSchema = new Schema({
   name: {
@@ -56,6 +57,7 @@ userSchema.virtual('tasks', {
 });
 
 // returns only the fields that you want the public to see
+// toJSON run everything res.send() is invoked
 userSchema.methods.toJSON = function () {
   const userObject = this.toObject();
   delete userObject.password;
@@ -82,6 +84,12 @@ userSchema.statics.findByCredentials = async (email, password) => {
   }
   return user;
 }
+
+// delete user tasks when user if removed
+userSchema.pre('remove', async function (next) {
+  await Task.deleteMany({ owner: this.id });
+  next();
+});
 
 // hash password before saving
 userSchema.pre('save', async function (next) {
