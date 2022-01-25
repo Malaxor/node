@@ -1,5 +1,22 @@
 const router = require('express').Router();
+const auth = require('../middleware/auth');
 const { Task } = require('../models');
+
+// desc: create task
+// access: private
+router.post('/tasks', auth, async (req, res) => {
+  const task = new Task({
+    ...req.body,
+    owner: req.user.id
+  });
+  
+  try {
+    await task.save();
+    res.status(201).send(task);
+  } catch (e) {
+    res.sendStatus(400);
+  }
+});
 
 // get all tasks
 router.get('/tasks', async (req, res) => {
@@ -24,16 +41,7 @@ router.get('/tasks/:id', async (req, res) => {
   }
 });
 
-// create task
-router.post('/tasks', async (req, res) => {
-  const task = new Task(req.body);
-  try {
-    await task.save();
-    res.status(201).send(task);
-  } catch (e) {
-    res.sendStatus(400);
-  }
-});
+
 
 // update task
 router.patch('/tasks/:id', async (req, res) => {

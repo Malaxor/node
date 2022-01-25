@@ -1,4 +1,4 @@
-const { model } = require('mongoose');
+const { model, Schema } = require('mongoose');
 
 const Task = model('tasks', {
   description: {
@@ -9,6 +9,11 @@ const Task = model('tasks', {
   completed: {
     type: Boolean,
     default: false
+  },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'users',
+    required: true
   }
 });
 module.exports = Task;

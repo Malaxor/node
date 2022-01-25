@@ -49,13 +49,17 @@ const userSchema = new Schema({
   }]
 });
 
+userSchema.virtual('tasks', {
+  ref: 'tasks',
+  localField: '_id',
+  foreignField: 'owner'
+});
+
 // returns only the fields that you want the public to see
 userSchema.methods.toJSON = function () {
   const userObject = this.toObject();
-  
   delete userObject.password;
   delete userObject.tokens;
-  
   return userObject;
 }
 
