@@ -18,20 +18,22 @@ router.post('/tasks', auth, async (req, res) => {
   }
 });
 
-// get all tasks
-router.get('/tasks', async (req, res) => {
+// desc: get logged in user's tasks
+// access: private
+router.get('/tasks', auth, async (req, res) => {
   try {
-    const tasks = await Task.find({});
-    res.send(tasks);
+    await req.user.populate('tasks');
+    res.send(req.user.tasks);
   } catch (e) {
     res.sendStatus(500);
   }
 });
 
-// get task by id
-router.get('/tasks/:id', async (req, res) => {
+// desc: get task by id and logged in user id (owner of task)
+// access: private
+router.get('/tasks/:id', auth, async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await Task.findOne({ id: req.params.id, owner: req.user.id });
     if (!task) {
       return res.sendStatus(404);
     }
@@ -41,10 +43,9 @@ router.get('/tasks/:id', async (req, res) => {
   }
 });
 
-
-
-// update task
-router.patch('/tasks/:id', async (req, res) => {
+// desc: update task
+// access: private
+router.patch('/tasks/:id', auth, async (req, res) => {
   const allowedUpdates = ['description', 'completed'];
   const updates = Object.keys(req.body);
   const isValidOperation = updates.every(update => allowedUpdates.includes(update));
@@ -53,7 +54,7 @@ router.patch('/tasks/:id', async (req, res) => {
     return res.status(400).send({ error: 'Invalid updates' });
   }
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await Task.findOne({ id: req.params.id, owner: req.user.id });
     if (!task) {
       return res.sendStatus(404);
     }
@@ -65,10 +66,11 @@ router.patch('/tasks/:id', async (req, res) => {
   }
 });
 
-// delete task
-router.delete('/tasks/:id', async (req, res) => {
+// desc: delete task
+// access: private
+router.delete('/tasks/:id', auth, async (req, res) => {
   try {
-    const task = await Task.findByIdAndDelete(req.params.id);
+    const task = await Task.findOneAndDelete({ id: req.params.id, owner: req.user.id });
     if (!task) {
       return res.sendStatus(404);
     }
