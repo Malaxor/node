@@ -29,7 +29,7 @@ router.get('/tasks', auth, async (req, res) => {
   }
 });
 
-// desc: get task by id and logged in user id (owner of task)
+// desc: find task by id and logged in user id (owner of task)
 // access: private
 router.get('/tasks/:id', auth, async (req, res) => {
   try {
@@ -53,6 +53,7 @@ router.patch('/tasks/:id', auth, async (req, res) => {
   if (!isValidOperation) {
     return res.status(400).send({ error: 'Invalid updates' });
   }
+  
   try {
     const task = await Task.findOne({ id: req.params.id, owner: req.user.id });
     if (!task) {

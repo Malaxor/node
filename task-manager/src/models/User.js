@@ -48,8 +48,11 @@ const userSchema = new Schema({
       required: true
     }
   }]
+}, {
+  timestamps: true
 });
 
+// associate a user with a list of tasks
 userSchema.virtual('tasks', {
   ref: 'tasks',
   localField: '_id',
@@ -85,7 +88,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
   return user;
 }
 
-// delete user tasks when user if removed
+// delete user tasks when user is removed
 userSchema.pre('remove', async function (next) {
   await Task.deleteMany({ owner: this.id });
   next();
