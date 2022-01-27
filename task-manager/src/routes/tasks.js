@@ -21,12 +21,17 @@ router.post('/tasks', auth, async (req, res) => {
 // desc: get logged in user's tasks
 // access: private
 router.get('/tasks', auth, async (req, res) => {
-  const { completed } = req.query;
+  const { completed, limit, skip } = req.query;
   
   try {
     await req.user.populate({ 
       path: 'tasks',
-      match: completed ? { completed }  : {}
+      // true or false can be either a string, number of boolean
+      match: completed ? { completed: completed === 'true' } : {}, 
+      options: {
+        limit: limit ? parseInt(limit) : 10,
+        skip: skip ? parseInt(skip) : 0
+      }
     });
     res.send(req.user.tasks);
   } catch (e) {
