@@ -36,7 +36,7 @@ router.get('/tasks', auth, async (req, res) => {
     await req.user.populate({ 
       path: 'tasks',
       // true or false can be either a string, number of boolean
-      match: completed ? { completed: completed === 'true' } : {}, 
+      match: completed ? { completed: completed === 'true' } : {},
       options: {
         limit: limit ? parseInt(limit) : 10,
         skip: skip ? parseInt(skip) : 0,
