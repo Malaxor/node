@@ -7,7 +7,19 @@ require('./db/mongoose');
 
 app.use(express.json());
 
-const upload = multer({ dest: 'images' });
+const upload = multer({ 
+  dest: 'images',
+  limits: {
+    fileSize: 1_000_000 // 1mb
+  },
+  fileFilter(req, file, cb) {
+    if (!file.originalname.match(/\.(|doc|docx)$/i)) {
+      return cb(new Error('Please upload a word document'));
+    }
+    cb(undefined, true);
+  }
+});
+
 app.post('/upload', upload.single('upload'), (req, res) => {
   res.send()
 })

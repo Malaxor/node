@@ -1,8 +1,7 @@
 const router = require('express').Router();
-const multer = require('multer');
-const upload = multer({ dest: 'avatar' });
 const auth = require('../middleware/auth');
 const User = require('../models/user');
+const upload = require('../utils/fileUpload');
 
 // desc: register user
 // access: public
