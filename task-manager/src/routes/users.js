@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const sharp = require('sharp');
 const auth = require('../middleware/auth');
 const User = require('../models/user');
 const upload = require('../utils/fileUpload');
@@ -92,7 +93,9 @@ router.delete('/users/me', auth, async (req, res) => {
 // desc: upload user avatar
 // access: private
 router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
-  req.user.avatar = req.file.buffer;
+  // upload returns a buffer since we're not saving the file to a destination
+  const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
+  req.user.avatar = buffer;
   await req.user.save();
   res.send();
 }, (err, req, res, next) => {
@@ -116,7 +119,7 @@ router.get('/users/:id/avatar', async (req, res) => {
     if (!user || !user.avatar) {
       throw new Error('avatar not found');
     }
-    res.set('Content-Type', 'image/jpg');
+    res.set('Content-Type', 'image/png');
     res.send(user.avatar);
   } catch (e) {
     res.status(404).send({ error: e.message });
