@@ -90,6 +90,7 @@ router.delete('/users/me', auth, async (req, res) => {
 });
 
 // desc: upload user avatar
+// access: private
 router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
   req.user.avatar = req.file.buffer;
   await req.user.save();
@@ -99,10 +100,27 @@ router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) 
 });
 
 // desc: delete user avatar
+// access: private
 router.delete('/users/me/avatar', auth, async (req, res) => {
   req.user.avatar = null;
   await req.user.save();
   res.sendStatus(200);
+});
+
+// desc: get a user's avatar
+// access: public
+router.get('/users/:id/avatar', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user || !user.avatar) {
+      throw new Error('avatar not found');
+    }
+    res.set('Content-Type', 'image/jpg');
+    res.send(user.avatar);
+  } catch (e) {
+    res.status(404).send({ error: e.message });
+  }
 });
 
 module.exports = router;
