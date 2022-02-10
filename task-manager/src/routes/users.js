@@ -90,10 +90,19 @@ router.delete('/users/me', auth, async (req, res) => {
 });
 
 // desc: upload user avatar
-router.post('/users/me/avatar', upload.single('avatar'), (req, res) => {
+router.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
+  req.user.avatar = req.file.buffer;
+  await req.user.save();
   res.send();
 }, (err, req, res, next) => {
   res.status(400).send({ error: err.message });
-})
+});
+
+// desc: delete user avatar
+router.delete('/users/me/avatar', auth, async (req, res) => {
+  req.user.avatar = null;
+  await req.user.save();
+  res.sendStatus(200);
+});
 
 module.exports = router;
