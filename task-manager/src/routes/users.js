@@ -3,11 +3,13 @@ const sharp = require('sharp');
 const auth = require('../middleware/auth');
 const User = require('../models/user');
 const upload = require('../utils/fileUpload');
+const { sendWelcomeEmail, sendCancelationEmail } = require('../email/account');
 
 // desc: register user
 // access: public
 router.post('/users', async (req, res) => {
   const user = new User(req.body);
+  sendWelcomeEmail(user.email, user.name);
   try {
     const token = await user.generateAuthToken(); // generates auth token and saves user 
     res.status(201).send({ user, token });
@@ -84,6 +86,7 @@ router.patch('/users/me', auth, async (req, res) => {
 router.delete('/users/me', auth, async (req, res) => {
   try {
     await req.user.remove();
+    sendCancelationEmail(req.user.email, req.user.name);
     res.send(req.user);
   } catch (e) {
     res.sendStatus(500);
