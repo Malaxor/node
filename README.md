@@ -20,3 +20,21 @@
 * building servers with [express](https://www.npmjs.com/package/express)
 * serving static files
 * dynamic templating with [handlebars](https://www.npmjs.com/package/hbs)
+
+
+## task-manager: an app for adding, removing and tracking your tasks.
+
+* mongoDB
+* [mongoose](https://mongoosejs.com/) (data validation and sanatization; instance and model methods; virtuals)
+* working with buffers
+* REST API CRUD operations
+* express middleware
+* string query
+* promises
+* [json webtoken](https://jwt.io/)
+* environment variables [env-cmd](https://www.npmjs.com/package/env-cmd)
+* sending emails [sendgrid](https://www.npmjs.com/package/@sendgrid/mail)
+* password hasing [bcrypy](https://www.npmjs.com/package/bcrypt)
+* dynamic templating [handlebars](https://www.npmjs.com/package/hbs)
+* upload files [multer](https://www.npmjs.com/package/multer)
+* data validation [validator](https://www.npmjs.com/package/validator)

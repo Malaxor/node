@@ -61,7 +61,7 @@ userSchema.virtual('tasks', {
 });
 
 // returns only the fields that you want the public to see
-// toJSON run everything res.send() is invoked
+// toJSON run every time res.send() is invoked
 userSchema.methods.toJSON = function () {
   const userObject = this.toObject();
   delete userObject.password;
