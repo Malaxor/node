@@ -24,7 +24,7 @@
 
 ## task-manager: an app for adding, removing and tracking your tasks.
 
-* mongoDB
+* [mongoDB](https://www.mongodb.com/)
 * [mongoose](https://mongoosejs.com/) (data validation and sanatization; instance and model methods; virtuals)
 * working with buffers
 * REST API CRUD operations
@@ -32,9 +32,8 @@
 * string query
 * promises
 * [json webtoken](https://jwt.io/)
-* environment variables [env-cmd](https://www.npmjs.com/package/env-cmd)
-* sending emails [sendgrid](https://www.npmjs.com/package/@sendgrid/mail)
-* password hasing [bcrypy](https://www.npmjs.com/package/bcrypt)
-* dynamic templating [handlebars](https://www.npmjs.com/package/hbs)
-* upload files [multer](https://www.npmjs.com/package/multer)
-* data validation [validator](https://www.npmjs.com/package/validator)
+* environment variables: [env-cmd](https://www.npmjs.com/package/env-cmd)
+* sending emails: [sendgrid](https://www.npmjs.com/package/@sendgrid/mail):
+* password hasing: [bcrypy](https://www.npmjs.com/package/bcrypt)
+* upload files: [multer](https://www.npmjs.com/package/multer)
+* data validation: [validator](https://www.npmjs.com/package/validator)
