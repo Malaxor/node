@@ -7,7 +7,7 @@ const forecast = (lat, long, callback) => {
 
   request({ url, json: true }, (err, { body }) => {
     if (err) {
-      callback('Unable to connect to weatherstack.')
+      callback('Unable to connect to weatherstack.');
     } else if (body.error) {
       callback('Unable to find location.');
     } else {

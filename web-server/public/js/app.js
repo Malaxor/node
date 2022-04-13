@@ -17,7 +17,7 @@ weatherForm.addEventListener('submit', e => {
         messageOne.textContent = error;
         setTimeout(() =>{
           messageOne.textContent = '';
-        }, 2500)
+        }, 2500);
       } else {
         messageOne.textContent = `${location}.`;
         messageTwo.textContent = weatherMsg;
