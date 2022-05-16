@@ -10,10 +10,16 @@ const publicDirectoryPath = path.join(__dirname, '../public');
 app.use(express.static(publicDirectoryPath));
 
 io.on('connection', (socket) => {
+  // emit to every connected client except the client emitter
+  socket.broadcast.emit('message', 'A new user has joined.');
   // socket.emit(): emit to new client connection
   // io.emit(): emit in real time to all clients
   socket.on('sendMessage', message => {
     io.emit('message', message);
+  });
+
+  socket.on('disconnect', () => {
+    io.emit('message', 'A user has left');
   });
 });
 
