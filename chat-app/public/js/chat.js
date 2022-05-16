@@ -4,8 +4,15 @@ const locationBtn = document.querySelector('.send-location');
 
 form.addEventListener('submit', e => {
   e.preventDefault();
-  socket.emit('sendMessage', e.target.message.value);
-  e.target.message.value = '';
+  if (e.target.message.value) {
+    socket.emit('sendMessage', e.target.message.value, (error) => {
+      if (error) {
+        return console.log(error);
+      }
+      console.log('message delivered');
+    });
+    e.target.message.value = '';
+  }
 });
 
 locationBtn.addEventListener('click', function () {
@@ -14,7 +21,9 @@ locationBtn.addEventListener('click', function () {
   }
   navigator.geolocation.getCurrentPosition((position) => {
     const { latitude, longitude } = position.coords;
-    socket.emit('shareLocation', { latitude, longitude });
+    socket.emit('shareLocation', { latitude, longitude }, (message) => {
+      console.log(message)
+    });
   });
 });
 
