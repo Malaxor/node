@@ -23,12 +23,13 @@ io.on('connection', (socket) => {
     if (filter.isProfane(message)) {
       return callback('profanity is disallowed');
     }
-    io.emit('message', message);
+    console.log(message)
+    io.emit('message', generateMessage(message));
     callback();
   });
 
   socket.on('shareLocation', ({ latitude, longitude }, callback) => {
-    io.emit('location', generateLocation(latitude,longitude));
+    io.emit('location', generateLocation(latitude, longitude));
     callback('location shared');
   });
 

@@ -4,25 +4,48 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/styles.min.css">
+    <link rel="icon" href="/img/favicon.png">
     <title>Chat App</title>
   </head>
   <body>
-    <h1>Chat App</h1>
-    <!-- dynamically render messages -->
-    <div class="messages"></div>
+    <div class="chat">
+      <div class="chat__sidebar">
 
-    <form class="message-form" action="#">
-      <input type="text" name="message">
-      <button type="submit">Submit</button>
-    </form>
-    <button class="send-location-btn">Share location</button>
+      </div>
+      <div class="chat__main">
+        <!-- dynamically render messages -->
+        <div class="messages chat__messages"></div>
+
+        <div class="compose">
+          <form class="message-form" action="#">
+            <input type="text" name="message">
+            <button type="submit">Submit</button>
+          </form>
+          <button class="send-location-btn">Share location</button>
+        </div>
+      </div>
+    </div>
 
     <script id="message-template" type="text/html">
-      <p>{{createdAt}} - {{message}}</p>
+      <div class="message">
+        <p>
+          <span class="message__name">TESTING</span>
+          <span class="message__meta">{{createdAt}}</span>
+        </p>
+        <p>{{message}}</p>
+      </div>
     </script>
 
     <script id="location-template" type="text/html">
-      <p>{{createdAt}} - <a target="_blank" href={{url}}>my location</a></p>
+      <div class="message">
+        <p>
+          <span class="message__name">TESTING</span>
+          <span class="message__meta">{{createdAt}}</span>
+        </p>
+        <p><a target="_blank" href={{url}}>my location</a></p>
+      </div>
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>

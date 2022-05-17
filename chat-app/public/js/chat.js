@@ -9,6 +9,7 @@ const $messages = document.querySelector('.messages');
 const messageTemplate = document.querySelector('#message-template').innerHTML;
 const locationTemplate = document.querySelector('#location-template').innerHTML;
 
+// receive message/location
 socket.on('message', ({ message, createdAt }) => {
   const html = Mustache.render(messageTemplate, { 
     message,
@@ -25,11 +26,11 @@ socket.on('location', ({ url, createdAt }) => {
   $messages.insertAdjacentHTML('beforeend', html);
 });
 
+// send message/location
 $messageForm.addEventListener('submit', e => {
   e.preventDefault();
   if ($messageFormInput.value) {
     $messageFormButton.setAttribute('disabled', 'disabled');
-
     socket.emit('sendMessage', $messageFormInput.value, (error) => {
       $messageFormButton.removeAttribute('disabled');
       $messageFormInput.value = '';
@@ -50,7 +51,6 @@ $sendLocationBtn.addEventListener('click', () => {
   navigator.geolocation.getCurrentPosition((position) => {
     const { latitude, longitude } = position.coords;
     socket.emit('shareLocation', { latitude, longitude }, (message) => {
-      console.log(message);
       $sendLocationBtn.disabled = false;
     });
   });
