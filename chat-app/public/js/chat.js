@@ -3,6 +3,19 @@ const $messageForm = document.querySelector('.message-form');
 const $messageFormInput = $messageForm.querySelector('input');
 const $messageFormButton = $messageForm.querySelector('button');
 const $sendLocationBtn = document.querySelector('.send-location-btn');
+const $messages = document.querySelector('.messages');
+
+// templates
+const messageTemplate = document.querySelector('#message-template').innerHTML;
+
+socket.on('message', (message) => {
+  const html = Mustache.render(messageTemplate, { message });
+  $messages.insertAdjacentHTML('beforeend', html);
+});
+
+socket.on('location', (location) => {
+  console.log(location);
+});
 
 $messageForm.addEventListener('submit', e => {
   e.preventDefault();
@@ -17,11 +30,11 @@ $messageForm.addEventListener('submit', e => {
         return console.log(error);
       }
       console.log('message delivered');
-    });  
+    });
   }
 });
 
-$sendLocationBtn.addEventListener('click', function () {
+$sendLocationBtn.addEventListener('click', () => {
   if (!navigator.geolocation) {
     return alert('geolocation is not supported by your browser');
   }
@@ -33,12 +46,4 @@ $sendLocationBtn.addEventListener('click', function () {
       $sendLocationBtn.disabled = false;
     });
   });
-});
-
-socket.on('location', (location) => {
-  console.log(location);
-})
-
-socket.on('message', (message) => {
-  console.log(message);
 });

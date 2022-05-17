@@ -8,12 +8,22 @@
   </head>
   <body>
     <h1>Chat App</h1>
+    <!-- dynamically render messages -->
+    <div class="messages"></div>
+
     <form class="message-form" action="#">
       <input type="text" name="message">
       <button type="submit">Submit</button>
     </form>
     <button class="send-location-btn">Share location</button>
 
+    <script id="message-template" type="text/html">
+        <p>{{message}}</p>
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/chat.js"></script>
   </body>
