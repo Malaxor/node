@@ -5,7 +5,7 @@ const socketio = require('socket.io');
 const server = require('http').createServer(app);
 const io = socketio(server);
 const Filter = require('bad-words');
-const { generateMessage } = require('./utils/messages');
+const { generateMessage, generateLocation } = require('./utils/messages');
 const port = 3000;
 
 const publicDirectoryPath = path.join(__dirname, '../public');
@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('shareLocation', ({ latitude, longitude }, callback) => {
-    io.emit('location', `https://google.com/maps?${latitude},${longitude}`);
+    io.emit('location', generateLocation(latitude,longitude));
     callback('location shared');
   });
 
