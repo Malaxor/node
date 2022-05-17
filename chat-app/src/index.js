@@ -5,14 +5,16 @@ const socketio = require('socket.io');
 const server = require('http').createServer(app);
 const io = socketio(server);
 const Filter = require('bad-words');
+const { generateMessage } = require('./utils/messages');
 const port = 3000;
 
 const publicDirectoryPath = path.join(__dirname, '../public');
 app.use(express.static(publicDirectoryPath));
 
 io.on('connection', (socket) => {
+  socket.emit('message', generateMessage('Welcome!'));
   // emit to every connected client except the client emitter
-  socket.broadcast.emit('message', 'A new user has joined.');
+  socket.broadcast.emit('message', generateMessage('A new user has joined.'));
   // socket.emit(): emit to new client connection
   // io.emit(): emit in real time to all clients
   socket.on('sendMessage', (message, callback) => {
@@ -31,7 +33,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    io.emit('message', 'A user has left');
+    io.emit('message', generateMessage('A user has left'));
   });
 });
 
