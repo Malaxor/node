@@ -12,9 +12,7 @@ const publicDirectoryPath = path.join(__dirname, '../public');
 app.use(express.static(publicDirectoryPath));
 
 io.on('connection', (socket) => {
-  socket.emit('message', generateMessage('Welcome!'));
-  // emit to every connected client except the client emitter
-  socket.broadcast.emit('message', generateMessage('A new user has joined.'));
+  // socket.broadcast.emit(): emit to every connected client except the client emitter
   // socket.emit(): emit to new client connection
   // io.emit(): emit in real time to all clients
   socket.on('sendMessage', (message, callback) => {
@@ -23,13 +21,19 @@ io.on('connection', (socket) => {
     if (filter.isProfane(message)) {
       return callback('profanity is disallowed');
     }
-    io.emit('message', generateMessage(message));
+    io.to('boats').emit('message', generateMessage(message));
     callback();
   });
 
   socket.on('shareLocation', ({ latitude, longitude }, callback) => {
     io.emit('location', generateLocation(latitude, longitude));
     callback('location shared');
+  });
+
+  socket.on('join', ({ username, room }) => {
+    socket.join(room);
+    socket.emit('message', generateMessage('Welcome!'));
+    socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined.`));
   });
 
   socket.on('disconnect', () => {

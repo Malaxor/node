@@ -9,6 +9,10 @@ const $messages = document.querySelector('.messages');
 const messageTemplate = document.querySelector('#message-template').innerHTML;
 const locationTemplate = document.querySelector('#location-template').innerHTML;
 
+// joining a chat room
+const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
+socket.emit('join', { username, room });
+
 // receive message/location
 socket.on('message', ({ message, createdAt }) => {
   const html = Mustache.render(messageTemplate, { 
@@ -25,6 +29,7 @@ socket.on('location', ({ url, createdAt }) => {
   });
   $messages.insertAdjacentHTML('beforeend', html);
 });
+
 
 // send message/location
 $messageForm.addEventListener('submit', e => {
