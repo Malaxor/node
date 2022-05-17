@@ -23,7 +23,6 @@ io.on('connection', (socket) => {
     if (filter.isProfane(message)) {
       return callback('profanity is disallowed');
     }
-    console.log(message)
     io.emit('message', generateMessage(message));
     callback();
   });
