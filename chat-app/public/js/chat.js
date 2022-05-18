@@ -11,7 +11,10 @@ const locationTemplate = document.querySelector('#location-template').innerHTML;
 
 // joining a chat room
 const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
-socket.emit('join', { username, room });
+socket.emit('join', { username, room }, (error) => {
+  alert(error);
+  location.href = '/';
+});
 
 // receive message/location
 socket.on('message', ({ message, createdAt }) => {

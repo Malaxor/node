@@ -6,6 +6,7 @@ const server = require('http').createServer(app);
 const io = socketio(server);
 const Filter = require('bad-words');
 const { generateMessage, generateLocation } = require('./utils/messages');
+const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users');
 const port = 3000;
 
 const publicDirectoryPath = path.join(__dirname, '../public');
@@ -15,6 +16,18 @@ io.on('connection', (socket) => {
   // socket.broadcast.emit(): emit to every connected client except the client emitter
   // socket.emit(): emit to new client connection
   // io.emit(): emit in real time to all clients
+
+  socket.on('join', ({ username, room }, callback) => {
+    const { error, user } = addUser({ id: socket.id, username, room });
+    if (error) {
+      return callback(error);
+    }
+    socket.join(user.room);
+    socket.emit('message', generateMessage('Welcome!'));
+    socket.broadcast.to(user.room).emit('message', generateMessage(`${user.username} has joined.`));
+    // callback();
+  });
+
   socket.on('sendMessage', (message, callback) => {
     const filter = new Filter();
 
@@ -30,14 +43,12 @@ io.on('connection', (socket) => {
     callback('location shared');
   });
 
-  socket.on('join', ({ username, room }) => {
-    socket.join(room);
-    socket.emit('message', generateMessage('Welcome!'));
-    socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined.`));
-  });
-
   socket.on('disconnect', () => {
-    io.emit('message', generateMessage('A user has left'));
+    const user = removeUser(socket.id);
+
+    if (user) {
+      io.to(user.room).emit('message', generateMessage(`${user.username} has left`));
+    }
   });
 });
 
