@@ -23,23 +23,24 @@ io.on('connection', (socket) => {
       return callback(error);
     }
     socket.join(user.room);
-    socket.emit('message', generateMessage('Welcome!'));
-    socket.broadcast.to(user.room).emit('message', generateMessage(`${user.username} has joined.`));
-    // callback();
+    socket.emit('message', generateMessage('Admin', 'Welcome!'));
+    socket.broadcast.to(user.room).emit('message', generateMessage('Admin', `${user.username} has joined.`));
+    callback();
   });
 
   socket.on('sendMessage', (message, callback) => {
+    const user = getUser(socket.id);
     const filter = new Filter();
-
     if (filter.isProfane(message)) {
       return callback('profanity is disallowed');
     }
-    io.to('boats').emit('message', generateMessage(message));
+    io.to(user.room).emit('message', generateMessage(user.username, message));
     callback();
   });
 
   socket.on('shareLocation', ({ latitude, longitude }, callback) => {
-    io.emit('location', generateLocation(latitude, longitude));
+    const user = getUser(socket.id);
+    io.to(user.room).emit('location', generateLocation(user.username, latitude, longitude));
     callback('location shared');
   });
 

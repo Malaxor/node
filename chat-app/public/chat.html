@@ -20,7 +20,7 @@
 
         <div class="compose">
           <form class="message-form" action="#">
-            <input type="text" name="message">
+            <input type="text" name="message" required>
             <button type="submit">Submit</button>
           </form>
           <button class="send-location-btn">Share location</button>
@@ -31,7 +31,7 @@
     <script id="message-template" type="text/html">
       <div class="message">
         <p>
-          <span class="message__name">TESTING</span>
+          <span class="message__name">{{username}}</span>
           <span class="message__meta">{{createdAt}}</span>
         </p>
         <p>{{message}}</p>
@@ -41,7 +41,7 @@
     <script id="location-template" type="text/html">
       <div class="message">
         <p>
-          <span class="message__name">TESTING</span>
+          <span class="message__name">{{username}}</span>
           <span class="message__meta">{{createdAt}}</span>
         </p>
         <p><a target="_blank" href={{url}}>my location</a></p>

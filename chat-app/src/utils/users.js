@@ -12,6 +12,7 @@ const addUser = ({ id, username, room }) => {
       error: 'username and room are required'
     }
   }
+
   // check for existing user
   const existingUser = users.find((user) => 
     user.room === room && user.username === username

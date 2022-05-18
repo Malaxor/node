@@ -12,27 +12,30 @@ const locationTemplate = document.querySelector('#location-template').innerHTML;
 // joining a chat room
 const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
 socket.emit('join', { username, room }, (error) => {
-  alert(error);
-  location.href = '/';
+  if (error) {
+    alert(error);
+    location.href = '/';
+  }
 });
 
 // receive message/location
-socket.on('message', ({ message, createdAt }) => {
+socket.on('message', ({ username, message, createdAt }) => {
   const html = Mustache.render(messageTemplate, { 
+    username,
     message,
     createdAt: moment(createdAt).format('h:mm a')
   });
   $messages.insertAdjacentHTML('beforeend', html);
 });
 
-socket.on('location', ({ url, createdAt }) => {
+socket.on('location', ({ username, url, createdAt }) => {
   const html = Mustache.render(locationTemplate, { 
+    username,
     url,
     createdAt: moment(createdAt).format('h:mm a')
   });
   $messages.insertAdjacentHTML('beforeend', html);
 });
-
 
 // send message/location
 $messageForm.addEventListener('submit', e => {
