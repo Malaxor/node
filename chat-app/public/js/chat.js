@@ -6,6 +6,28 @@ const $sendLocationBtn = document.querySelector('.send-location-btn');
 const $messages = document.querySelector('.chat__messages');
 const $sidebar = document.querySelector('.chat__sidebar');
 
+// auto scroll
+const autoscroll = () => {
+  // new message element
+  const $newMessage = $messages.lastElementChild;
+  //  height of the new message
+  const { marginBottom } = getComputedStyle($newMessage);
+  const newMessageMargin = parseInt(marginBottom);
+  const newMessageHeight = $newMessage.offsetHeight + newMessageMargin;
+
+  // visible height of messages container (not including overflow)
+  const visibleHeight = $messages.offsetHeight;
+  // total height of messages messages (including overflow) 
+  const containerHeight = $messages.scrollHeight;
+  // how far down have I scrolled from the top of the messages container?
+  // visible height is also the height of the scroll bar
+  const scrollOffset = $messages.scrollTop + visibleHeight; 
+
+  if (Math.round(containerHeight - newMessageHeight) <= Math.round(scrollOffset)) {
+    $messages.scrollTop = $messages.scrollHeight;
+  }
+}
+
 // templates
 const messageTemplate = document.querySelector('#message-template').innerHTML;
 const locationTemplate = document.querySelector('#location-template').innerHTML;
@@ -28,6 +50,7 @@ socket.on('message', ({ username, message, createdAt }) => {
     createdAt: moment(createdAt).format('h:mm a')
   });
   $messages.insertAdjacentHTML('beforeend', html);
+  autoscroll();
 });
 
 socket.on('location', ({ username, url, createdAt }) => {
@@ -37,6 +60,7 @@ socket.on('location', ({ username, url, createdAt }) => {
     createdAt: moment(createdAt).format('h:mm a')
   });
   $messages.insertAdjacentHTML('beforeend', html);
+  autoscroll();
 });
 
 socket.on('roomData', ({ room, users }) => {
