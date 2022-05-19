@@ -3,11 +3,13 @@ const $messageForm = document.querySelector('.message-form');
 const $messageFormInput = $messageForm.querySelector('input');
 const $messageFormButton = $messageForm.querySelector('button');
 const $sendLocationBtn = document.querySelector('.send-location-btn');
-const $messages = document.querySelector('.messages');
+const $messages = document.querySelector('.chat__messages');
+const $sidebar = document.querySelector('.chat__sidebar');
 
 // templates
 const messageTemplate = document.querySelector('#message-template').innerHTML;
 const locationTemplate = document.querySelector('#location-template').innerHTML;
+const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML;
 
 // joining a chat room
 const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
@@ -35,6 +37,14 @@ socket.on('location', ({ username, url, createdAt }) => {
     createdAt: moment(createdAt).format('h:mm a')
   });
   $messages.insertAdjacentHTML('beforeend', html);
+});
+
+socket.on('roomData', ({ room, users }) => {
+  const html = Mustache.render(sidebarTemplate, { 
+    room,
+    users
+  });
+  $sidebar.innerHTML = html;
 });
 
 // send message/location
