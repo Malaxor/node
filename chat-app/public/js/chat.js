@@ -20,7 +20,6 @@ const autoscroll = () => {
   // total height of messages messages (including overflow) 
   const containerHeight = $messages.scrollHeight;
   // how far down have I scrolled from the top of the messages container?
-  // visible height is also the height of the scroll bar
   const scrollOffset = $messages.scrollTop + visibleHeight; 
 
   if (Math.round(containerHeight - newMessageHeight) <= Math.round(scrollOffset)) {
@@ -83,7 +82,6 @@ $messageForm.addEventListener('submit', e => {
       if (error) {
         return console.log(error);
       }
-      console.log('message delivered');
     });
   }
 });
