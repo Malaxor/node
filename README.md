@@ -41,7 +41,7 @@
 ## chat-app: a real-time messeging app built with socket.io and mustache.js.
 
 * [socket.io](https://www.npmjs.com/package/socket.io)
-* [mustache.js](template engine)(https://github.com/janl/mustache.js)
+* [mustache.js](https://github.com/janl/mustache.js) - template engine
 * [express](https://www.npmjs.com/package/express)
 * [moment.js](https://momentjs.com/)
 * sharing location (window.navigator)
