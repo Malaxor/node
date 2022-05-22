@@ -37,3 +37,11 @@
 * password hasing: [bcrypy](https://www.npmjs.com/package/bcrypt)
 * upload files: [multer](https://www.npmjs.com/package/multer)
 * data validation: [validator](https://www.npmjs.com/package/validator)
+
+## chat-app: a real-time messeging app built with socket.io and mustache.js.
+
+* [socket.io](https://www.npmjs.com/package/socket.io)
+* [mustache.js](template engine)(https://github.com/janl/mustache.js)
+* [express](https://www.npmjs.com/package/express)
+* [moment.js](https://momentjs.com/)
+* sharing location (window.navigator)

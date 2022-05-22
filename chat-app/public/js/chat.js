@@ -6,7 +6,7 @@ const $sendLocationBtn = document.querySelector('.send-location-btn');
 const $messages = document.querySelector('.chat__messages');
 const $sidebar = document.querySelector('.chat__sidebar');
 
-// auto scroll
+
 const autoscroll = () => {
   // new message element
   const $newMessage = $messages.lastElementChild;
