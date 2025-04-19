@@ -31,24 +31,14 @@ const addUser = ({ id, username, room }) => {
   return { user };
 }
 
-// REMOVE USER
-const removeUser = (id) => {
-  const index = users.findIndex((user) => user.id === id);
+// remove user
+const removeUser = id => users.filter(user => user.id === id)[0]
 
-  if (index !== -1) {
-    return users.splice(index, 1)[0];
-  }
-}
+// get user
+const getUser = id => users.find(user => user.id === id)
 
-// GET USER
-const getUser = (id) => {
-  return users.find(user => user.id === id);
-}
-
-// GET USERS IN ROOM
-const getUsersInRoom = (room) => {
-  return users.filter(user => user.room === room);
-}
+// get users
+const getUsersInRoom = room => users.filter(user => user.room === room)
 
 module.exports = {
   addUser,

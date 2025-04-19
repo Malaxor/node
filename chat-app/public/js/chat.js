@@ -3,28 +3,13 @@ const $messageForm = document.querySelector('.message-form');
 const $messageFormInput = $messageForm.querySelector('input');
 const $messageFormButton = $messageForm.querySelector('button');
 const $sendLocationBtn = document.querySelector('.send-location-btn');
+const $exitRoomBtn = document.querySelector('.exit-room-btn');
 const $messages = document.querySelector('.chat__messages');
 const $sidebar = document.querySelector('.chat__sidebar');
 
-
 const autoscroll = () => {
-  // new message element
-  const $newMessage = $messages.lastElementChild;
-  //  height of the new message
-  const { marginBottom } = getComputedStyle($newMessage);
-  const newMessageMargin = parseInt(marginBottom);
-  const newMessageHeight = $newMessage.offsetHeight + newMessageMargin;
-
-  // visible height of messages container (not including overflow)
-  const visibleHeight = $messages.offsetHeight;
-  // total height of messages messages (including overflow) 
-  const containerHeight = $messages.scrollHeight;
-  // how far down have I scrolled from the top of the messages container?
-  const scrollOffset = $messages.scrollTop + visibleHeight; 
-
-  if (Math.round(containerHeight - newMessageHeight) <= Math.round(scrollOffset)) {
-    $messages.scrollTop = $messages.scrollHeight;
-  }
+  const element= $messages.lastElementChild
+  element.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
 }
 
 // templates
@@ -80,7 +65,7 @@ $messageForm.addEventListener('submit', e => {
       $messageFormInput.value = '';
       $messageFormInput.focus();
       if (error) {
-        return console.log(error);
+        alert(error);
       }
     });
   }
@@ -88,6 +73,7 @@ $messageForm.addEventListener('submit', e => {
 
 $sendLocationBtn.addEventListener('click', () => {
   if (!navigator.geolocation) {
+
     return alert('geolocation is not supported by your browser');
   }
   $sendLocationBtn.disabled = true;
@@ -97,4 +83,9 @@ $sendLocationBtn.addEventListener('click', () => {
       $sendLocationBtn.disabled = false;
     });
   });
+});
+
+$exitRoomBtn.addEventListener('click', () => {
+  socket.disconnect()
+  location.href = '/'
 });
